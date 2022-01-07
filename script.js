@@ -38,6 +38,7 @@ const form = document.getElementById('form');
 form.addEventListener('submit', addBookToLibrary);
 form.addEventListener('submit', (event) => {
   event.preventDefault()
+  event.target.reset();
 });
 
 function removeChildNodes(parent){
@@ -55,6 +56,20 @@ function addBookToLibrary(){
   const newBook = new Book(title, author, pages, read);
   myLibrary.push(newBook);
   removeChildNodes(libraryContainer)
+  displayBooks();
+}
+
+// document.addEventListener('click', event => console.log(event.target.classList.contains('remove-btn')));
+
+document.addEventListener('click', (event) => {
+  if(event.target.classList.contains('remove-btn')){
+    removeBook(event);
+  }
+});
+
+function removeBook(obj){
+  myLibrary.splice(obj.target.parentNode.attributes[0].value, 1);
+  removeChildNodes(libraryContainer);
   displayBooks();
 }
 
@@ -85,6 +100,7 @@ function displayBooks(){
 
     let remove = document.createElement('BUTTON')
     remove.innerText = "Remove Book"
+    remove.classList.add("remove-btn")
     bookDiv.appendChild(remove)
 
     libraryContainer.appendChild(bookDiv);
