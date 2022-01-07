@@ -1,23 +1,4 @@
-let myLibrary = [
-  {
-    title: 'The Hobbit',
-    author: 'J.R.R. Tolkien',
-    pages: 2005,
-    read: true
-  },
-  {
-    title: 'The Hobbit',
-    author: 'J.R.R. Tolkien',
-    pages: 2005,
-    read: false
-  },
-  {
-    title: 'The Hobbit',
-    author: 'J.R.R. Tolkien',
-    pages: 2005,
-    read: true
-  }
-];
+let myLibrary = [];
 
 function Book(title, author, pages, read) {
   this.title = title;
@@ -28,11 +9,30 @@ function Book(title, author, pages, read) {
 
 Book.prototype.toggleRead = function(){
   if(this.read){
-    this.read = true;
-  }else {
+    console.log('test');
     this.read = false;
+  }else {
+    this.read = true;
   }
 }
+const firstBook = new Book('The Hobbit', 'Tolkien', 10001, true);
+myLibrary.push(firstBook);
+const secondBook = new Book('Atlas Shrugged', 'Ayn Rand', 3000, false);
+myLibrary.push(secondBook);
+
+
+// Activate toggleRead function when click the read book button
+document.addEventListener('click', (event) => {
+  if(event.target.classList.contains('read-btn')){
+    let book = event.target.parentNode.attributes[0].value;
+    myLibrary[book].toggleRead();
+    console.log(myLibrary[book]);
+    removeChildNodes(libraryContainer);
+    displayBooks();
+  }
+});
+
+
 const libraryContainer = document.querySelector('.library-container');
 const form = document.getElementById('form');
 form.addEventListener('submit', addBookToLibrary);
@@ -55,11 +55,25 @@ function addBookToLibrary(){
 
   const newBook = new Book(title, author, pages, read);
   myLibrary.push(newBook);
-  removeChildNodes(libraryContainer)
+  removeChildNodes(libraryContainer);
   displayBooks();
 }
 
-// document.addEventListener('click', event => console.log(event.target.classList.contains('remove-btn')));
+const formContainer = document.querySelector('.form-container');
+const newBookBtn = document.querySelector('#new-book-btn');
+newBookBtn.addEventListener('click', () => {
+  if (formContainer.style.display === '' || formContainer.style.display === 'none'){
+    formContainer.style.display = 'flex';
+  } else {
+    formContainer.style.display = 'none';
+  }
+});
+
+formContainer.addEventListener('mousedown', () => {
+  formContainer.style.display = 'none';
+})
+
+formContainer.firstElementChild.addEventListener('mousedown', e => e.stopPropagation())
 
 document.addEventListener('click', (event) => {
   if(event.target.classList.contains('remove-btn')){
@@ -102,6 +116,11 @@ function displayBooks(){
     remove.innerText = "Remove Book"
     remove.classList.add("remove-btn")
     bookDiv.appendChild(remove)
+
+    let readBtn = document.createElement('BUTTON')
+    readBtn.innerText = "Read Book"
+    readBtn.classList.add("read-btn")
+    bookDiv.appendChild(readBtn)
 
     libraryContainer.appendChild(bookDiv);
   });
