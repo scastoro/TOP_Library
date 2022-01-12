@@ -1,20 +1,38 @@
 let myLibrary = [];
 
-function Book(title, author, pages, read) {
-  this.title = title;
-  this.pages = pages;
-  this.author = author;
-  this.read = read;
-}
+class Book {
+  constructor(title, author, pages, read){
+    this.title = title;
+    this.pages = pages;
+    this.author = author;
+    this.read = read;
+  }
 
-Book.prototype.toggleRead = function(){
-  if(this.read){
-    console.log('test');
-    this.read = false;
-  }else {
-    this.read = true;
+  toggleRead() {
+    if(this.read){
+      console.log('test');
+      this.read = false;
+    }else {
+      this.read = true;
+    }
   }
 }
+
+// function Book(title, author, pages, read) {
+//   this.title = title;
+//   this.pages = pages;
+//   this.author = author;
+//   this.read = read;
+// }
+
+// Book.prototype.toggleRead = function(){
+//   if(this.read){
+//     console.log('test');
+//     this.read = false;
+//   }else {
+//     this.read = true;
+//   }
+// }
 const firstBook = new Book('The Hobbit', 'Tolkien', 10001, true);
 myLibrary.push(firstBook);
 const secondBook = new Book('Atlas Shrugged', 'Ayn Rand', 3000, false);
